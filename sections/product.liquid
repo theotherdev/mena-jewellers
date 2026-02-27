@@ -1,0 +1,386 @@
+{% comment %}
+  Product page section with Bryan Jimenez inspired minimal design.
+  Features image gallery with navigation and minimal product info layout.
+{% endcomment %}
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_images = product.images
+  assign featured_image = product.featured_image
+%}
+
+<div class="product min-h-screen">
+  <!-- Image Gallery -->
+  <div class="product__gallery relative" id="product-gallery">
+    <div class="product__images flex overflow-x-scroll gap-2.5">
+      {% for image in product_images %}
+        <div class="product__image-wrapper shrink-0 w-full md:w-[calc((100%_-_20px)_/_3)]" data-image-index="{{ forloop.index0 }}">
+          {% liquid
+            # First image uses eager loading with high priority for LCP optimization
+            if forloop.first
+              assign image_loading = 'eager'
+              assign image_fetchpriority = 'high'
+            else
+              assign image_loading = 'lazy'
+              assign image_fetchpriority = 'auto'
+            endif
+          %}
+          {% render 'image',
+            image: image,
+            width: 1500,
+            loading: image_loading,
+            fetchpriority: image_fetchpriority,
+            srcset: true,
+            sizes: '(min-width: 768px) 33vw, 100vw',
+            class: 'product__image'
+          %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Navigation Buttons (Mobile Only) -->
+    {% if product_images.size > 1 %}
+      <button type="button" class="product__nav product__nav--prev md:hidden" aria-label="Previous image">
+        Previous
+      </button>
+      <button type="button" class="product__nav product__nav--next md:hidden" aria-label="Next image">
+        Next
+      </button>
+    {% endif %}
+  </div>
+
+  <!-- Desktop Navigation (hidden on mobile, visible md+) -->
+  {% if product_images.size > 1 %}
+    <div class="hidden flex-row justify-between pr-[20px] pt-[10px] md:flex md:grid md:grid-cols-3">
+      <div>
+        <button type="button" class="product__nav-desktop product__nav-desktop--prev hover:underline">
+          Previous
+        </button>
+      </div>
+      <div></div>
+      <div class="flex justify-end">
+        <button type="button" class="product__nav-desktop product__nav-desktop--next hover:underline">
+          Next
+        </button>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Product Info -->
+  <div class="product__info grid gap-[10px] pt-[10px] sm:pb-[30px] md:grid-cols-3">
+    <!-- Column 1: Title, Price, Variants, Add to Cart (Split into 2 sub-columns) -->
+    <div class="flex gap-[10px] leading-[1.2] child:flex-1">
+      <!-- Sub-column 1: Title & Price -->
+      <div>
+        <h1 class="product__title uppercase">{{ product.title }}</h1>
+        <div class="product__price pt-[10px] tracking-wide">{{ current_variant.price | money }}</div>
+      </div>
+
+      <!-- Sub-column 2: Variants & Add to Cart -->
+      <div>
+        {% form 'product', product, class: 'product__form' %}
+          <!-- Variant Selector -->
+          {% if product.variants.size > 1 %}
+            <div class="product__variants">
+              {% for option in product.options_with_values %}
+                <div class="product__option">
+                  {% liquid
+                    # Sort size values from small to large
+                    assign size_order = 'XS,S,M,L,XL,XXL,XXXL' | split: ','
+                    assign sorted_values = ''
+                    for size in size_order
+                      if option.values contains size
+                        assign sorted_values = sorted_values | append: size | append: ','
+                      endif
+                    endfor
+                    assign sorted_values = sorted_values | split: ','
+
+                    # Use sorted values if we successfully sorted, otherwise use original
+                    if sorted_values.size > 0
+                      assign display_values = sorted_values
+                    else
+                      assign display_values = option.values
+                    endif
+                  %}
+                  <div class="product__option-buttons flex flex-row flex-wrap justify-end gap-[20px] gap-y-[10px] text-right md:justify-start md:gap-[10px] md:text-left">
+                    {% for value in display_values %}
+                      {% liquid
+                        assign option_disabled = true
+                        for variant in product.variants
+                          case option.position
+                            when 1
+                              if variant.option1 == value and variant.available
+                                assign option_disabled = false
+                              endif
+                            when 2
+                              if variant.option2 == value and variant.available
+                                assign option_disabled = false
+                              endif
+                            when 3
+                              if variant.option3 == value and variant.available
+                                assign option_disabled = false
+                              endif
+                          endcase
+                        endfor
+                      %}
+                      <button
+                        type="button"
+                        class="product__variant-btn text-primary uppercase md:pr-3 text-black{% if option_disabled %} product__variant-btn--disabled{% endif %}"
+                        data-option-position="{{ option.position }}"
+                        data-option-value="{{ value | escape }}"
+                        {% if option_disabled %}disabled{% endif %}
+                      >
+                        {{ value }}
+                      </button>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+
+              <select name="id" id="product-select" class="hidden">
+                {% for variant in product.variants %}
+                  <option
+                    value="{{ variant.id }}"
+                    {% if variant == current_variant %}selected{% endif %}
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                    {{ variant.title }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% else %}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {% endif %}
+
+          <!-- Add to Cart -->
+          <div class="m flex justify-end gap-[10px] text-right md:justify-start md:text-left">
+            <button
+              type="submit"
+              name="add"
+              class="product__add-to-cart h-fit cursor-pointer pt-[10px] text-right font-medium transition-opacity duration-100 hover:opacity-50 text-black"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {% if current_variant.available %}
+                Add to Cart
+              {% else %}
+                Sold Out
+              {% endif %}
+            </button>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+
+    <!-- Column 2: Product Description -->
+    <div class="product__info-description" id="desc">
+      {% if product.description != blank %}
+        <div class="product__description">
+          {{ product.description }}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Column 3: Additional Info -->
+    <div class="product__info-additional flex flex-col items-start gap-[10px]">
+      <p>Please note that the lead time on this garment is between 7 to 14 business days.</p>
+      <p>Subjective free shipping is available on all domestic orders.</p>
+      {% if section.settings.show_sizing_chart and section.settings.sizing_chart_page != blank %}
+        <button type="button" class="product__sizing-chart order-first cursor-pointer transition-opacity duration-100 hover:opacity-50 sm:order-last" onclick="window.open('{{ section.settings.sizing_chart_page.url }}', '_blank')">
+          View Sizing Chart
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .product {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.2;
+    padding-top: 60px;
+  }
+
+  @media (min-width: 768px) {
+    .product {
+      padding-top: 68px;
+    }
+  }
+
+  .product__gallery {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 768px) {
+    .product {
+      display: block;
+    }
+
+    .product__gallery {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .product__nav {
+      display: none !important;
+    }
+  }
+
+  .product__images {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  .product__images::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product__image-wrapper {
+    position: relative;
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 768px) {
+    .product__images {
+      scroll-snap-type: none;
+    }
+  }
+
+  .product__nav {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    background: none;
+    border: none;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    text-transform: capitalize;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10;
+    color: var(--color-foreground, #000);
+  }
+
+  .product__nav--prev {
+    left: 20px;
+  }
+
+  .product__nav--next {
+    right: 20px;
+  }
+
+  .product__nav-desktop {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    text-transform: capitalize;
+  }
+
+  .product__title {
+    font-weight: 500;
+  }
+
+  .product__price {
+    font-weight: 500;
+  }
+
+  .product__variant-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    transition: opacity 0.1s ease;
+  }
+
+  .product__variant-btn:hover:not(.product__variant-btn--disabled) {
+    opacity: 0.5;
+  }
+
+  .product__variant-btn--disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  .product__variant-btn.selected {
+    text-decoration: underline;
+  }
+
+  .product__add-to-cart {
+    background: none;
+    border: none;
+    padding: 24px 0 0 0;
+    font-family: inherit;
+    font-size: inherit;
+    width: auto;
+    text-transform: none;
+  }
+
+  .product__add-to-cart:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .product__info-description {
+    font-weight: 500;
+  }
+
+  .product__description p {
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+  }
+
+  .product__sizing-chart {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    text-transform: capitalize;
+  }
+
+  /* Child selector support for older browsers */
+  .child\:flex-1 > * {
+    flex: 1 1 0%;
+  }
+{% endstylesheet %}
+
+<script>
+  window.productVariants = {{ product.variants | json }};
+</script>
+
+<script src="{{ 'product.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_sizing_chart",
+      "label": "Show sizing chart button",
+      "default": false
+    },
+    {
+      "type": "page",
+      "id": "sizing_chart_page",
+      "label": "Sizing chart page"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

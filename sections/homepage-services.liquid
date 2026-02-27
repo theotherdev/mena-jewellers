@@ -1,0 +1,226 @@
+<section class="homepage-services full-width">
+  <div class="homepage-services__intro">
+    <h3>STORES &amp; SERVICES</h3>
+    <p>Discover our thoughtfully designed stores and Piercing Studios across North America, Australia and the UK.</p>
+  </div>
+
+  <div class="homepage-services__grid">
+    <article class="homepage-services__card">
+      <img src="{{ section.settings.card1_image | default: 'https://www.figma.com/api/mcp/asset/3f1e3bc3-a178-4f91-b346-7ae0f2e9eaf1' }}" alt="{{ section.settings.card1_heading | escape }}" loading="lazy" width="576" height="376">
+      <div class="homepage-services__body">
+        <h4>{{ section.settings.card1_heading }}</h4>
+        <p>{{ section.settings.card1_text }}</p>
+        <a href="{{ section.settings.card1_link }}">{{ section.settings.card1_label }}</a>
+      </div>
+    </article>
+
+    <article class="homepage-services__card">
+      <img src="{{ section.settings.card2_image | default: 'https://www.figma.com/api/mcp/asset/bbf4b0e0-fdf4-4408-bd53-101a53bc0fb4' }}" alt="{{ section.settings.card2_heading | escape }}" loading="lazy" width="576" height="376">
+      <div class="homepage-services__body">
+        <h4>{{ section.settings.card2_heading }}</h4>
+        <p>{{ section.settings.card2_text }}</p>
+        <a href="{{ section.settings.card2_link }}">{{ section.settings.card2_label }}</a>
+      </div>
+    </article>
+
+    <article class="homepage-services__card">
+      <img src="{{ section.settings.card3_image | default: 'https://www.figma.com/api/mcp/asset/3833b118-8671-437e-a41b-5dcc044fc37d' }}" alt="{{ section.settings.card3_heading | escape }}" loading="lazy" width="576" height="360">
+      <div class="homepage-services__body">
+        <h4>{{ section.settings.card3_heading }}</h4>
+        <p>{{ section.settings.card3_text }}</p>
+        <a href="{{ section.settings.card3_link }}">{{ section.settings.card3_label }}</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+{% stylesheet %}
+  .homepage-services {
+    background: #fff;
+    font-family: Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: 56px 80px;
+  }
+
+  .homepage-services__intro {
+    margin-bottom: 24px;
+  }
+
+  .homepage-services__intro h3 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    line-height: 32px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .homepage-services__intro p {
+    font-size: 12px;
+    letter-spacing: -0.12px;
+    line-height: 15.96px;
+    margin: 23px 0 0;
+  }
+
+  .homepage-services__grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .homepage-services__card {
+    background: #fff;
+  }
+
+  .homepage-services__card img {
+    aspect-ratio: 576 / 376;
+    display: block;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .homepage-services__body {
+    padding: 12px 8px;
+  }
+
+  .homepage-services__body h4 {
+    color: #000;
+    font-size: 13.8px;
+    font-weight: 500;
+    letter-spacing: 0.28px;
+    line-height: 18.62px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .homepage-services__body p {
+    font-size: 12px;
+    letter-spacing: -0.12px;
+    line-height: 15.96px;
+    margin: 8px 0 12px;
+  }
+
+  .homepage-services__body a {
+    color: #000;
+    display: inline-block;
+    font-size: 13.7px;
+    font-weight: 500;
+    line-height: 18.62px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 1023px) {
+    .homepage-services {
+      padding: 32px 20px;
+    }
+
+    .homepage-services__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .homepage-services__intro h3 {
+      font-size: 26px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Homepage Services",
+  "settings": [
+    {
+      "type": "text",
+      "id": "card1_image",
+      "label": "Card 1 image URL",
+      "default": "https://www.figma.com/api/mcp/asset/3f1e3bc3-a178-4f91-b346-7ae0f2e9eaf1"
+    },
+    {
+      "type": "text",
+      "id": "card1_heading",
+      "label": "Card 1 heading",
+      "default": "OUR STORES"
+    },
+    {
+      "type": "text",
+      "id": "card1_text",
+      "label": "Card 1 text",
+      "default": "Your new favorite space to shop, stack, and stay a while."
+    },
+    {
+      "type": "text",
+      "id": "card1_label",
+      "label": "Card 1 link label",
+      "default": "VISIT OUR STORES"
+    },
+    {
+      "type": "url",
+      "id": "card1_link",
+      "label": "Card 1 link"
+    },
+    {
+      "type": "text",
+      "id": "card2_image",
+      "label": "Card 2 image URL",
+      "default": "https://www.figma.com/api/mcp/asset/bbf4b0e0-fdf4-4408-bd53-101a53bc0fb4"
+    },
+    {
+      "type": "text",
+      "id": "card2_heading",
+      "label": "Card 2 heading",
+      "default": "PIERCING STUDIO"
+    },
+    {
+      "type": "text",
+      "id": "card2_text",
+      "label": "Card 2 text",
+      "default": "Create your dream ear stack with an expert piercer at our stores."
+    },
+    {
+      "type": "text",
+      "id": "card2_label",
+      "label": "Card 2 link label",
+      "default": "BOOK AN APPOINTMENT"
+    },
+    {
+      "type": "url",
+      "id": "card2_link",
+      "label": "Card 2 link"
+    },
+    {
+      "type": "text",
+      "id": "card3_image",
+      "label": "Card 3 image URL",
+      "default": "https://www.figma.com/api/mcp/asset/3833b118-8671-437e-a41b-5dcc044fc37d"
+    },
+    {
+      "type": "text",
+      "id": "card3_heading",
+      "label": "Card 3 heading",
+      "default": "STYLING APPOINTMENT"
+    },
+    {
+      "type": "text",
+      "id": "card3_text",
+      "label": "Card 3 text",
+      "default": "Chat with a stylist one-on-one for expert stacking advice. Available in-store."
+    },
+    {
+      "type": "text",
+      "id": "card3_label",
+      "label": "Card 3 link label",
+      "default": "LEARN MORE"
+    },
+    {
+      "type": "url",
+      "id": "card3_link",
+      "label": "Card 3 link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Services"
+    }
+  ]
+}
+{% endschema %}

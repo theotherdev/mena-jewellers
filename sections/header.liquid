@@ -1,0 +1,314 @@
+{% liquid
+  assign nav_links = section.settings.menu.links
+%}
+
+<div class="mejuri-header">
+  <div class="mejuri-announcement" role="region" aria-label="Announcement">
+    <button class="mejuri-announcement__arrow" type="button" aria-label="Previous announcement">&#8592;</button>
+    <button class="mejuri-announcement__arrow" type="button" aria-label="Next announcement">&#8594;</button>
+    <p class="mejuri-announcement__text">
+      <span>{{ section.settings.announcement_text }}</span>
+      {% if section.settings.announcement_link_label != blank and section.settings.announcement_link != blank %}
+        <a href="{{ section.settings.announcement_link }}" class="mejuri-announcement__link">{{ section.settings.announcement_link_label }}</a>
+      {% endif %}
+    </p>
+  </div>
+
+  <header class="mejuri-nav" role="banner">
+    <div class="mejuri-nav__inner">
+      <a href="{{ routes.root_url }}" class="mejuri-nav__brand">{{ settings.brand_name | default: shop.name | upcase }}</a>
+
+      <nav class="mejuri-nav__menu" aria-label="Primary">
+        {% for link in nav_links limit: 7 %}
+          <a href="{{ link.url }}" class="header__link header__link--nav">{{ link.title }}</a>
+        {% endfor %}
+      </nav>
+
+      <div class="mejuri-nav__tools" aria-label="Actions">
+        <button type="button" class="mejuri-nav__search" aria-label="Search">
+          <img src="https://www.figma.com/api/mcp/asset/b2889da7-1674-4581-8054-569eb203dd4d" alt="" width="24" height="24">
+          <span>Search</span>
+        </button>
+        <a href="/pages/stores" class="header__link header__link--nav mejuri-nav__utility">
+          <img src="https://www.figma.com/api/mcp/asset/5d12b60f-b160-4e88-baa1-0955bb311602" alt="" width="24" height="24">
+          <span>Stores &amp; Services</span>
+        </a>
+        <a href="{{ routes.account_url }}" class="mejuri-nav__icon" aria-label="Account">
+          <img src="https://www.figma.com/api/mcp/asset/b1783b2b-2f41-4244-9a6a-7dbfa8289e33" alt="" width="24" height="24">
+        </a>
+        <a href="/pages/wishlist" class="mejuri-nav__icon" aria-label="Wishlist">
+          <img src="https://www.figma.com/api/mcp/asset/f53291a1-da8c-4ce9-86b7-0536fc608c2c" alt="" width="24" height="24">
+        </a>
+        <button type="button" data-cart-trigger class="mejuri-nav__icon" aria-label="{{ 'cart.title' | t }}">
+          <img src="{{ 'icon-cart.svg' | asset_url }}" alt="" width="24" height="24">
+        </button>
+      </div>
+
+      <button id="menu-toggle" class="mejuri-nav__mobile-toggle" type="button" aria-label="Toggle menu">Menu</button>
+    </div>
+  </header>
+
+  <div id="mobile-menu" class="mejuri-mobile hidden" aria-modal="true" role="dialog">
+    <div class="mejuri-mobile__top">
+      <span class="mejuri-nav__brand">{{ settings.brand_name | default: shop.name | upcase }}</span>
+      <button id="menu-close" type="button" class="mejuri-mobile__close" aria-label="Close menu">Close</button>
+    </div>
+    <nav class="mejuri-mobile__links" aria-label="Mobile navigation">
+      {% for link in nav_links %}
+        <a href="{{ link.url }}" class="header__link header__link--nav-mobile">{{ link.title }}</a>
+      {% endfor %}
+      <a href="{{ routes.account_url }}" class="header__link header__link--nav-mobile">Account</a>
+      <button data-cart-trigger type="button" class="header__link header__link--nav-mobile">Cart</button>
+    </nav>
+  </div>
+</div>
+
+{% stylesheet %}
+  .mejuri-header {
+    border-bottom: 0.667px solid #000;
+    font-family: Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    position: relative;
+    z-index: 20;
+    background: #fff;
+  }
+
+  .mejuri-announcement {
+    align-items: center;
+    background: #000;
+    color: #fff;
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    height: 32px;
+    padding: 0 32px;
+  }
+
+  .mejuri-announcement__arrow {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+    padding: 0;
+    width: 16px;
+  }
+
+  .mejuri-announcement__text {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    letter-spacing: 0.24px;
+    font-size: 12px;
+    line-height: 18.62px;
+    text-transform: none;
+  }
+
+  .mejuri-announcement__link {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  .mejuri-nav {
+    background: #fff;
+    border-top: 0.667px solid #000;
+  }
+
+  .mejuri-nav__inner {
+    align-items: center;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+    min-height: 56.67px;
+    padding: 16px 32px;
+  }
+
+  .mejuri-nav__brand {
+    color: #000;
+    font-size: 31px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .mejuri-nav__menu {
+    align-items: center;
+    display: none;
+    gap: 16px;
+  }
+
+  .header__link--nav {
+    color: #000;
+    font-size: 11.6px;
+    letter-spacing: 0.24px;
+    line-height: 15.96px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .mejuri-nav__tools {
+    align-items: center;
+    display: none;
+    gap: 16px;
+  }
+
+  .mejuri-nav__search,
+  .mejuri-nav__utility {
+    align-items: center;
+    color: #000;
+    display: inline-flex;
+    font-size: 11.6px;
+    gap: 4px;
+    letter-spacing: 0.24px;
+    line-height: 15.96px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .mejuri-nav__search {
+    background: transparent;
+    border: 0;
+    border-bottom: 0.667px solid #000;
+    cursor: pointer;
+    gap: 140px;
+    justify-content: space-between;
+    min-width: 223px;
+    padding: 0 0 0.667px;
+  }
+
+  .mejuri-nav__icon {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: inline-flex;
+    padding: 0;
+  }
+
+  .mejuri-nav__mobile-toggle {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: #000;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.24px;
+    line-height: 15.96px;
+    text-transform: uppercase;
+  }
+
+  .mejuri-mobile {
+    background: #fff;
+    border-top: 0.667px solid #000;
+    inset: 88px 0 auto;
+    padding: 20px;
+    position: absolute;
+  }
+
+  .mejuri-mobile.hidden {
+    display: none;
+  }
+
+  .mejuri-mobile__top {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .mejuri-mobile__close {
+    background: transparent;
+    border: 0;
+    color: #000;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.24px;
+    text-transform: uppercase;
+  }
+
+  .mejuri-mobile__links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .header__link--nav-mobile {
+    background: transparent;
+    border: 0;
+    color: #000;
+    font-size: 12px;
+    letter-spacing: 0.24px;
+    line-height: 15.96px;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 1024px) {
+    .mejuri-nav__menu,
+    .mejuri-nav__tools {
+      display: flex;
+    }
+
+    .mejuri-nav__mobile-toggle,
+    .mejuri-mobile {
+      display: none;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .mejuri-announcement {
+      padding: 0 12px;
+    }
+
+    .mejuri-announcement__text {
+      font-size: 10px;
+      gap: 4px;
+      letter-spacing: 0.2px;
+    }
+
+    .mejuri-nav__inner {
+      padding: 12px;
+    }
+
+    .mejuri-nav__brand {
+      font-size: 22px;
+    }
+  }
+{% endstylesheet %}
+
+<script src="{{ 'header.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "t:general.header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Stack Your Story."
+    },
+    {
+      "type": "text",
+      "id": "announcement_link_label",
+      "label": "Announcement link label",
+      "default": "Shop Puzzle Rings"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement link"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "homepage_sidekick_J9bn2K": {
+      "type": "homepage-sidekick",
+      "name": "Homepage Sidekick",
+      "settings": {
+        "row1_left_image": "https://www.figma.com/api/mcp/asset/5b0b105b-2334-4e97-9e01-4cc6d919c4b6",
+        "row1_left_alt": "Puzzle rings sketch",
+        "row1_right_image": "https://www.figma.com/api/mcp/asset/2a9570e8-aee0-40f8-97d2-6de31d9da23d",
+        "row1_right_alt": "Hand with rings",
+        "row1_heading": "START YOUR STACK",
+        "row1_text": "Our Puzzle Rings are waiting.",
+        "row1_link_label": "SHOP PUZZLE RINGS",
+        "row1_link_url": "",
+        "row2_left_image": "https://www.figma.com/api/mcp/asset/d2639cb1-db2d-45d8-b87a-1842832a3fbc",
+        "row2_left_alt": "The art of the stack",
+        "row2_right_image": "https://www.figma.com/api/mcp/asset/57ff3a3a-3075-49b4-8d53-b63358c842cb",
+        "row2_right_alt": "Stacked rings closeup",
+        "row2_heading": "THE ART OF THE STACK",
+        "row2_text": "Step inside our stacking studio and discover your new favorites.",
+        "row2_link_label": "STACKING GUIDE",
+        "row2_link_url": ""
+      }
+    },
+    "product_grid_QfprHG": {
+      "type": "product-grid",
+      "name": "t:general.product_grid",
+      "settings": {
+        "heading": "TOP 15 TRENDING PRODUCTS",
+        "collection": "frontpage",
+        "products_count": 15,
+        "columns_desktop": 4,
+        "columns_tablet": 2,
+        "columns_mobile": "1"
+      }
+    },
+    "homepage_services_t8w2x": {
+      "type": "homepage-services",
+      "name": "Homepage Services",
+      "settings": {
+        "card1_image": "https://www.figma.com/api/mcp/asset/3f1e3bc3-a178-4f91-b346-7ae0f2e9eaf1",
+        "card1_heading": "OUR STORES",
+        "card1_text": "Your new favorite space to shop, stack, and stay a while.",
+        "card1_label": "VISIT OUR STORES",
+        "card1_link": "",
+        "card2_image": "https://www.figma.com/api/mcp/asset/bbf4b0e0-fdf4-4408-bd53-101a53bc0fb4",
+        "card2_heading": "PIERCING STUDIO",
+        "card2_text": "Create your dream ear stack with an expert piercer at our stores.",
+        "card2_label": "BOOK AN APPOINTMENT",
+        "card2_link": "",
+        "card3_image": "https://www.figma.com/api/mcp/asset/3833b118-8671-437e-a41b-5dcc044fc37d",
+        "card3_heading": "STYLING APPOINTMENT",
+        "card3_text": "Chat with a stylist one-on-one for expert stacking advice. Available in-store.",
+        "card3_label": "LEARN MORE",
+        "card3_link": ""
+      }
+    }
+  },
+  "order": [
+    "homepage_sidekick_J9bn2K",
+    "product_grid_QfprHG",
+    "homepage_services_t8w2x"
+  ]
+}

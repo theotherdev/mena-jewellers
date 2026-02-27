@@ -1,0 +1,392 @@
+<footer class="mejuri-footer full-width">
+  <section class="mejuri-footer__sustainability">
+    <div class="mejuri-footer__sustainability-inner">
+      <div class="mejuri-footer__sustainability-left">
+        <h2>OUR SUSTAINABILITY PROGRESS</h2>
+        <a href="{{ section.settings.sustainability_report_url }}">VIEW SUSTAINABILITY REPORT</a>
+      </div>
+      <p>
+        Our journey mirrors that of the jewelry we create-crafted through collaboration and constant evolution. We're here
+        to transform fine jewelry into everyday moments, empower women, and drive meaningful change in our communities
+        and beyond.
+      </p>
+    </div>
+  </section>
+
+  <section class="mejuri-footer__links">
+    <div class="mejuri-footer__columns">
+      <div>
+        <h3>Help</h3>
+        <ul>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Order Status</a></li>
+          <li><a href="#">Shipping &amp; Delivery</a></li>
+          <li><a href="#">Returns &amp; Exchanges</a></li>
+          <li><a href="#">Warranty</a></li>
+          <li><a href="#">Gift Card</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Code</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Stores &amp; Services</h3>
+        <ul>
+          <li><a href="#">Our Stores</a></li>
+          <li><a href="#">Piercing Services Near You</a></li>
+          <li><a href="#">Piercing Aftercare</a></li>
+          <li><a href="#">Piercing Studio Locations</a></li>
+          <li><a href="#">Corporate Events &amp; Gifting</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="#">Jewelry Care</a></li>
+          <li><a href="#">Ring Stacking Guide</a></li>
+          <li><a href="#">Size Guides</a></li>
+          <li><a href="#">How To Guide</a></li>
+          <li><a href="#">Blogs</a></li>
+          <li><a href="#">Mejuri + Terms &amp; Conditions</a></li>
+          <li><a href="#">Mejuri Mobile App</a></li>
+          <li><a href="#">Our Materials</a></li>
+          <li><a href="#">Accessibility Statement</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About Mejuri</h3>
+        <ul>
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Commitments</a></li>
+          <li><a href="#">Modern Slavery Policy</a></li>
+          <li><a href="#">Supplier Code Of Conduct</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="mejuri-footer__certifications">
+        <h3>Our Certifications and Partnerships</h3>
+        <img src="https://www.figma.com/api/mcp/asset/a697bd91-0c7c-42bc-81c3-6b2338a4e8a2" alt="Certifications and partnerships logos" loading="lazy" width="261" height="187">
+      </div>
+    </div>
+
+    <div class="mejuri-footer__member">
+      <div>
+        <p class="mejuri-footer__member-title">MEJURI+ <span>BECOME A MEMBER</span></p>
+        <p class="mejuri-footer__member-text">Join Mejuri+ for free and discover exclusive access to our biggest drops, promotions, members-only products, and more.</p>
+      </div>
+      <a href="{{ section.settings.member_cta_url }}" class="mejuri-footer__member-button">JOIN NOW FOR FREE</a>
+    </div>
+  </section>
+
+  <section class="mejuri-footer__legal">
+    <button type="button" class="mejuri-footer__country">
+      <span>Country &amp; Language:</span>
+      <img src="https://www.figma.com/api/mcp/asset/5a85003b-4e27-4bc0-a527-ace0cf890c3e" alt="" width="24" height="16">
+      <span>Rest Of World (USD) | English</span>
+    </button>
+
+    <div class="mejuri-footer__legal-right">
+      <a href="{{ section.settings.privacy_url | default: '/policies/privacy-policy' }}">Privacy Policy</a>
+      <a href="{{ section.settings.terms_url | default: '/policies/terms-of-service' }}">Terms and Conditions</a>
+      <span>&copy; {{ 'now' | date: '%Y' }} Mejuri Inc</span>
+      <div class="mejuri-footer__socials">
+        {% if section.settings.facebook_url != blank %}
+          <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener"><img src="https://www.figma.com/api/mcp/asset/a775e6a4-4421-4dae-af7f-6b50adeaff23" alt="Facebook" width="24" height="24"></a>
+        {% endif %}
+        {% if section.settings.instagram_url != blank %}
+          <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener"><img src="https://www.figma.com/api/mcp/asset/8b309bc0-ef2f-4830-a4cc-6d441be72d9c" alt="Instagram" width="24" height="24"></a>
+        {% endif %}
+        {% if section.settings.pinterest_url != blank %}
+          <a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener"><img src="https://www.figma.com/api/mcp/asset/2ec200ea-28a9-4dc2-b127-7aec43bf0c61" alt="Pinterest" width="24" height="24"></a>
+        {% endif %}
+        {% if section.settings.twitter_url != blank %}
+          <a href="{{ section.settings.twitter_url }}" target="_blank" rel="noopener"><img src="https://www.figma.com/api/mcp/asset/67ff7003-e6a5-498c-b438-33e1db02a794" alt="X" width="24" height="24"></a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</footer>
+
+{% stylesheet %}
+  .mejuri-footer {
+    font-family: Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  .mejuri-footer__sustainability {
+    background: #c0b9b8;
+    border-top: 0.667px solid #000;
+    padding: 15.295px 32px 16px;
+  }
+
+  .mejuri-footer__sustainability-inner {
+    align-items: end;
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mejuri-footer__sustainability h2 {
+    font-size: 23.6px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    line-height: 24px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .mejuri-footer__sustainability a {
+    color: #0a0a0a;
+    display: inline-block;
+    font-size: 11.8px;
+    font-weight: 500;
+    line-height: 15.96px;
+    margin-top: 16px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    text-underline-offset: 3px;
+  }
+
+  .mejuri-footer__sustainability p {
+    color: #0a0a0a;
+    font-size: 12px;
+    letter-spacing: -0.12px;
+    line-height: 15.96px;
+    margin: 0;
+  }
+
+  .mejuri-footer__links {
+    background: #fff;
+    padding: 47.17px 32px 64px;
+  }
+
+  .mejuri-footer__columns {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .mejuri-footer__columns h3 {
+    color: #000;
+    font-size: 13.2px;
+    font-weight: 500;
+    letter-spacing: 0.28px;
+    line-height: 18.62px;
+    margin: 0 0 12px;
+  }
+
+  .mejuri-footer__columns ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mejuri-footer__columns li {
+    margin: 0;
+    padding: 6.33px 0 1.67px;
+  }
+
+  .mejuri-footer__columns a {
+    color: #0a0a0a;
+    font-size: 10.9px;
+    letter-spacing: 0.24px;
+    line-height: 15.96px;
+    text-decoration: none;
+  }
+
+  .mejuri-footer__certifications img {
+    display: block;
+    max-width: 261px;
+    width: 100%;
+  }
+
+  .mejuri-footer__member {
+    align-items: center;
+    border-top: 0.667px solid #000;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 64.667px;
+  }
+
+  .mejuri-footer__member-title {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.28px;
+    line-height: 18.62px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .mejuri-footer__member-title span {
+    font-weight: 400;
+  }
+
+  .mejuri-footer__member-text {
+    color: #000;
+    font-size: 12px;
+    letter-spacing: -0.12px;
+    line-height: 15.96px;
+    margin: 3.34px 0 0;
+  }
+
+  .mejuri-footer__member-button {
+    border: 1px solid #000;
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: 20px;
+    padding: 12.667px 24.667px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .mejuri-footer__legal {
+    align-items: center;
+    background: #000;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 0 80px;
+  }
+
+  .mejuri-footer__country {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    display: inline-flex;
+    font-size: 10px;
+    gap: 4px;
+    letter-spacing: 0.2px;
+    line-height: 13.3px;
+    padding: 0;
+    text-transform: capitalize;
+  }
+
+  .mejuri-footer__country img {
+    height: 16px;
+    width: 24px;
+  }
+
+  .mejuri-footer__legal-right {
+    align-items: center;
+    display: inline-flex;
+    gap: 24px;
+  }
+
+  .mejuri-footer__legal-right a,
+  .mejuri-footer__legal-right span {
+    color: #fff;
+    font-size: 10px;
+    letter-spacing: 0.2px;
+    line-height: 13.3px;
+    text-decoration: none;
+  }
+
+  .mejuri-footer__socials {
+    display: inline-flex;
+    gap: 8px;
+  }
+
+  .mejuri-footer__socials img {
+    height: 24px;
+    width: 24px;
+  }
+
+  @media (max-width: 1100px) {
+    .mejuri-footer__sustainability-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .mejuri-footer__columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mejuri-footer__member {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .mejuri-footer__legal {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 12px;
+      padding: 16px 20px;
+    }
+
+    .mejuri-footer__legal-right {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .mejuri-footer__sustainability,
+    .mejuri-footer__links {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .mejuri-footer__sustainability h2 {
+      font-size: 20px;
+      line-height: 22px;
+    }
+
+    .mejuri-footer__columns {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.footer",
+  "settings": [
+    {
+      "type": "url",
+      "id": "sustainability_report_url",
+      "label": "Sustainability report URL"
+    },
+    {
+      "type": "url",
+      "id": "member_cta_url",
+      "label": "Member CTA URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "t:labels.instagram_url"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "t:labels.facebook_url"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "t:labels.twitter_url"
+    },
+    {
+      "type": "url",
+      "id": "pinterest_url",
+      "label": "Pinterest URL"
+    },
+    {
+      "type": "url",
+      "id": "terms_url",
+      "label": "Terms URL"
+    },
+    {
+      "type": "url",
+      "id": "privacy_url",
+      "label": "Privacy URL"
+    }
+  ]
+}
+{% endschema %}

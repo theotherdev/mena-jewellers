@@ -1,0 +1,28 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+node_modules
+CLAUDE.md
+mcp.json
+.claude
+
+# Dependencies
+node_modules/
+bun.lockb
+
+# Build artifacts
+index.ts
+tsconfig.json
+
+# Shopify CLI files
+.shopify/
+
+# Release files
+release
+*.zip

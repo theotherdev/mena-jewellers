@@ -1,0 +1,136 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Kiswa-Noir",
+    "theme_version": "0.1.0",
+    "theme_author": "Shopify",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "t:general.typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:general.fonts"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_primary_font",
+        "default": "helvetica_n4",
+        "label": "t:general.primary",
+        "info": "Recommended: Helvetica for clean, minimalist aesthetic"
+      }
+    ]
+  },
+  {
+    "name": "t:general.branding",
+    "settings": [
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "t:labels.brand_name",
+        "default": "Kiswa-Noir",
+        "info": "t:info.brand_name"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:labels.logo",
+        "info": "t:info.logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "label": "t:labels.logo_width",
+        "default": 150
+      }
+    ]
+  },
+  {
+    "name": "t:general.layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "max_page_width",
+        "label": "t:labels.page_width",
+        "options": [
+          {
+            "value": "90rem",
+            "label": "t:options.page_width.narrow"
+          },
+          {
+            "value": "110rem",
+            "label": "t:options.page_width.wide"
+          }
+        ],
+        "default": "90rem"
+      },
+      {
+        "type": "range",
+        "id": "min_page_margin",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.page_margin",
+        "default": 20
+      }
+    ]
+  },
+  {
+    "name": "t:general.colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:general.main"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "default": "#FFFFFF",
+        "label": "t:labels.background"
+      },
+      {
+        "type": "color",
+        "id": "foreground_color",
+        "default": "#000000",
+        "label": "t:labels.foreground"
+      },
+      {
+        "type": "header",
+        "content": "t:general.footer"
+      },
+      {
+        "type": "color",
+        "id": "footer_background_color",
+        "default": "#1a1a1a",
+        "label": "t:labels.footer_background"
+      },
+      {
+        "type": "color",
+        "id": "footer_text_color",
+        "default": "#ffffff",
+        "label": "t:labels.footer_text"
+      },
+      {
+        "type": "header",
+        "content": "t:general.inputs"
+      },
+      {
+        "type": "range",
+        "id": "input_corner_radius",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.input_corner_radius",
+        "default": 4
+      }
+    ]
+  }
+]

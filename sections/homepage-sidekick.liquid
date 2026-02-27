@@ -1,0 +1,286 @@
+<div class="homepage-sidekick full-width">
+  <section class="homepage-sidekick__row homepage-sidekick__row--light">
+    <article class="homepage-sidekick__panel homepage-sidekick__panel--copy">
+      <img
+        src="{{ section.settings.row1_left_image | default: 'https://www.figma.com/api/mcp/asset/5b0b105b-2334-4e97-9e01-4cc6d919c4b6' }}"
+        alt="{{ section.settings.row1_left_alt | escape }}"
+        class="homepage-sidekick__image"
+        loading="eager"
+        fetchpriority="high"
+        width="960"
+        height="960"
+      >
+      <div class="homepage-sidekick__content">
+        <h2>{{ section.settings.row1_heading }}</h2>
+        <p>{{ section.settings.row1_text }}</p>
+        <a href="{{ section.settings.row1_link_url }}">{{ section.settings.row1_link_label }}</a>
+      </div>
+      <img
+        src="https://www.figma.com/api/mcp/asset/fefe9c4b-2781-4a3f-a426-ef061b547450"
+        alt="Pause"
+        class="homepage-sidekick__pause"
+        loading="lazy"
+        width="24"
+        height="24"
+      >
+    </article>
+
+    <article class="homepage-sidekick__panel">
+      <img
+        src="{{ section.settings.row1_right_image | default: 'https://www.figma.com/api/mcp/asset/2a9570e8-aee0-40f8-97d2-6de31d9da23d' }}"
+        alt="{{ section.settings.row1_right_alt | escape }}"
+        class="homepage-sidekick__image"
+        loading="eager"
+        width="960"
+        height="960"
+      >
+    </article>
+  </section>
+
+  <section class="homepage-sidekick__row homepage-sidekick__row--dark">
+    <article class="homepage-sidekick__panel homepage-sidekick__panel--copy">
+      <img
+        src="{{ section.settings.row2_left_image | default: 'https://www.figma.com/api/mcp/asset/d2639cb1-db2d-45d8-b87a-1842832a3fbc' }}"
+        alt="{{ section.settings.row2_left_alt | escape }}"
+        class="homepage-sidekick__image"
+        loading="lazy"
+        width="960"
+        height="960"
+      >
+      <div class="homepage-sidekick__content">
+        <h2>{{ section.settings.row2_heading }}</h2>
+        <p>{{ section.settings.row2_text }}</p>
+        <a href="{{ section.settings.row2_link_url }}">{{ section.settings.row2_link_label }}</a>
+      </div>
+    </article>
+
+    <article class="homepage-sidekick__panel">
+      <img
+        src="{{ section.settings.row2_right_image | default: 'https://www.figma.com/api/mcp/asset/57ff3a3a-3075-49b4-8d53-b63358c842cb' }}"
+        alt="{{ section.settings.row2_right_alt | escape }}"
+        class="homepage-sidekick__image"
+        loading="lazy"
+        width="960"
+        height="960"
+      >
+      <img
+        src="https://www.figma.com/api/mcp/asset/3ad6f80e-7e6f-4790-9c53-88e314333e45"
+        alt="Pause"
+        class="homepage-sidekick__pause"
+        loading="lazy"
+        width="24"
+        height="24"
+      >
+    </article>
+  </section>
+</div>
+
+{% stylesheet %}
+  .homepage-sidekick {
+    font-family: Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  .homepage-sidekick__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 960px;
+  }
+
+  .homepage-sidekick__panel {
+    min-height: 480px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .homepage-sidekick__image {
+    display: block;
+    height: 100%;
+    inset: 0;
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+  }
+
+  .homepage-sidekick__content {
+    bottom: 64px;
+    left: 64px;
+    max-width: 400px;
+    position: absolute;
+    z-index: 2;
+  }
+
+  .homepage-sidekick__content h2 {
+    font-size: 31.5px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    line-height: 42.56px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .homepage-sidekick__content p {
+    font-size: 14px;
+    letter-spacing: -0.14px;
+    line-height: 21px;
+    margin: 16px 0;
+  }
+
+  .homepage-sidekick__content a {
+    font-size: 13.8px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 18.62px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .homepage-sidekick__row--light .homepage-sidekick__content,
+  .homepage-sidekick__row--light a {
+    color: #000;
+  }
+
+  .homepage-sidekick__row--dark .homepage-sidekick__content,
+  .homepage-sidekick__row--dark a {
+    color: #fff;
+  }
+
+  .homepage-sidekick__pause {
+    bottom: 12px;
+    height: 24px;
+    position: absolute;
+    right: 12px;
+    width: 24px;
+    z-index: 2;
+  }
+
+  @media (max-width: 989px) {
+    .homepage-sidekick__row {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .homepage-sidekick__panel {
+      min-height: 64vw;
+    }
+
+    .homepage-sidekick__content {
+      bottom: 24px;
+      left: 24px;
+      max-width: 80%;
+    }
+
+    .homepage-sidekick__content h2 {
+      font-size: 24px;
+      line-height: 30px;
+      letter-spacing: 1px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Homepage Sidekick",
+  "settings": [
+    {
+      "type": "text",
+      "id": "row1_left_image",
+      "label": "Row 1 left image URL",
+      "default": "https://www.figma.com/api/mcp/asset/5b0b105b-2334-4e97-9e01-4cc6d919c4b6"
+    },
+    {
+      "type": "text",
+      "id": "row1_left_alt",
+      "label": "Row 1 left alt",
+      "default": "Puzzle rings sketch"
+    },
+    {
+      "type": "text",
+      "id": "row1_right_image",
+      "label": "Row 1 right image URL",
+      "default": "https://www.figma.com/api/mcp/asset/2a9570e8-aee0-40f8-97d2-6de31d9da23d"
+    },
+    {
+      "type": "text",
+      "id": "row1_right_alt",
+      "label": "Row 1 right alt",
+      "default": "Hand with gold rings"
+    },
+    {
+      "type": "text",
+      "id": "row1_heading",
+      "label": "Row 1 heading",
+      "default": "START YOUR STACK"
+    },
+    {
+      "type": "text",
+      "id": "row1_text",
+      "label": "Row 1 text",
+      "default": "Our Puzzle Rings are waiting."
+    },
+    {
+      "type": "text",
+      "id": "row1_link_label",
+      "label": "Row 1 link label",
+      "default": "SHOP PUZZLE RINGS"
+    },
+    {
+      "type": "url",
+      "id": "row1_link_url",
+      "label": "Row 1 link URL"
+    },
+    {
+      "type": "text",
+      "id": "row2_left_image",
+      "label": "Row 2 left image URL",
+      "default": "https://www.figma.com/api/mcp/asset/d2639cb1-db2d-45d8-b87a-1842832a3fbc"
+    },
+    {
+      "type": "text",
+      "id": "row2_left_alt",
+      "label": "Row 2 left alt",
+      "default": "Hand with stacked rings"
+    },
+    {
+      "type": "text",
+      "id": "row2_right_image",
+      "label": "Row 2 right image URL",
+      "default": "https://www.figma.com/api/mcp/asset/57ff3a3a-3075-49b4-8d53-b63358c842cb"
+    },
+    {
+      "type": "text",
+      "id": "row2_right_alt",
+      "label": "Row 2 right alt",
+      "default": "Closeup of stacked rings"
+    },
+    {
+      "type": "text",
+      "id": "row2_heading",
+      "label": "Row 2 heading",
+      "default": "THE ART OF THE STACK"
+    },
+    {
+      "type": "text",
+      "id": "row2_text",
+      "label": "Row 2 text",
+      "default": "Step inside our stacking studio and discover your new favorites."
+    },
+    {
+      "type": "text",
+      "id": "row2_link_label",
+      "label": "Row 2 link label",
+      "default": "STACKING GUIDE"
+    },
+    {
+      "type": "url",
+      "id": "row2_link_url",
+      "label": "Row 2 link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Sidekick"
+    }
+  ]
+}
+{% endschema %}

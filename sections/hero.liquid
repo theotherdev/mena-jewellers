@@ -1,0 +1,355 @@
+{% comment %}
+  Hero section with full-width image display optimized for both desktop and mobile.
+  Supports separate images for desktop (landscape) and mobile (portrait) views.
+{% endcomment %}
+
+{% liquid
+  assign desktop_image = section.settings.desktop_image
+  assign mobile_image = section.settings.mobile_image
+  assign min_height_desktop = section.settings.min_height_desktop
+  assign min_height_mobile = section.settings.min_height_mobile
+  assign show_overlay = section.settings.show_overlay
+  assign overlay_opacity = section.settings.overlay_opacity
+%}
+
+{% comment %} Desktop Hero {% endcomment %}
+{% if desktop_image %}
+  <div class="hero hero--desktop full-width" style="--hero-min-height: {{ min_height_desktop }}svh; --overlay-opacity: {{ overlay_opacity }};">
+    <div class="hero__image-wrapper">
+      {% render 'image',
+        image: desktop_image,
+        width: 3840,
+        loading: 'eager',
+        fetchpriority: 'high',
+        srcset: true,
+        sizes: '100vw',
+        class: 'hero__image'
+      %}
+    </div>
+
+    {% if show_overlay %}
+      <div class="hero__overlay"></div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="hero__content">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'heading' %}
+              <h1 class="hero__heading" {{ block.shopify_attributes }}>
+                {{ block.settings.heading }}
+              </h1>
+            {% when 'text' %}
+              <div class="hero__text" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </div>
+            {% when 'button' %}
+              {% if block.settings.button_url != blank and block.settings.button_label != blank %}
+                <a href="{{ block.settings.button_url }}" class="hero__button" {{ block.shopify_attributes }}>
+                  {{ block.settings.button_label }}
+                </a>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% comment %} Mobile Hero {% endcomment %}
+{% if mobile_image %}
+  <div class="hero hero--mobile full-width" style="--hero-min-height: {{ min_height_mobile }}svh; --overlay-opacity: {{ overlay_opacity }};">
+    <div class="hero__image-wrapper">
+      {% render 'image',
+        image: mobile_image,
+        width: 2000,
+        loading: 'eager',
+        fetchpriority: 'high',
+        srcset: true,
+        sizes: '100vw',
+        class: 'hero__image'
+      %}
+    </div>
+
+    {% if show_overlay %}
+      <div class="hero__overlay"></div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="hero__content">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'heading' %}
+              <h1 class="hero__heading" {{ block.shopify_attributes }}>
+                {{ block.settings.heading }}
+              </h1>
+            {% when 'text' %}
+              <div class="hero__text" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </div>
+            {% when 'button' %}
+              {% if block.settings.button_url != blank and block.settings.button_label != blank %}
+                <a href="{{ block.settings.button_url }}" class="hero__button" {{ block.shopify_attributes }}>
+                  {{ block.settings.button_label }}
+                </a>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: var(--hero-min-height, 80svh);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  /* Mobile hero visible by default */
+  .hero--mobile {
+    display: grid;
+  }
+
+  /* Desktop hero hidden by default */
+  .hero--desktop {
+    display: none;
+  }
+
+  .hero__image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .hero__image-wrapper .image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__image-wrapper .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, var(--overlay-opacity, 0.3));
+    z-index: 1;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1.5rem;
+    max-width: 100%;
+  }
+
+  .hero__heading {
+    font-family: var(--font-primary--family);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero__text {
+    font-family: var(--font-primary--family);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #ffffff;
+    max-width: 600px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero__button {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background-color: var(--color-foreground);
+    color: var(--color-background);
+    font-family: var(--font-primary--family);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: var(--style-border-radius-inputs, 4px);
+    transition: opacity 0.3s ease;
+  }
+
+  .hero__button:hover {
+    opacity: 0.8;
+  }
+
+  /* Desktop breakpoint */
+  @media (min-width: 751px) {
+    .hero--mobile {
+      display: none;
+    }
+
+    .hero--desktop {
+      display: grid;
+    }
+
+    .hero__heading {
+      font-size: 3.5rem;
+    }
+
+    .hero__text {
+      font-size: 1.25rem;
+    }
+
+    .hero__content {
+      gap: 2rem;
+      padding: 3rem;
+    }
+  }
+
+  /* Large desktop */
+  @media (min-width: 1024px) {
+    .hero__heading {
+      font-size: 4.5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.hero",
+  "tag": "section",
+  "class": "hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:labels.desktop_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "t:labels.desktop_image",
+      "info": "Recommended: 3840 x 2400px or larger (landscape)"
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "t:labels.min_height_desktop",
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "t:labels.mobile_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "t:labels.mobile_image",
+      "info": "Recommended: 1600 x 2000px or larger (portrait)"
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "t:labels.min_height_mobile",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "t:general.overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "t:labels.show_overlay",
+      "info": "Improves text readability over images",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 0.8,
+      "step": 0.1,
+      "label": "t:labels.overlay_opacity",
+      "default": 0.3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "t:general.heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:labels.heading",
+          "default": "Welcome to our store"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:general.text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "<p>Discover our collection</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "t:general.button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:labels.button_label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "t:labels.button_url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {% # Resource hints for faster DNS resolution and connection %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.shopifycdn.com">
+
+    {% # Inlined CSS Variables %}
+    {% render 'css-variables' %}
+
+    {% comment %}
+      Font preloading:
+      1. Preconnect to font CDN for faster connection
+      2. Preload only the critical font variant (base weight)
+      3. Additional variants load on-demand via @font-face
+    {% endcomment %}
+    {% if settings.type_primary_font %}
+      {% unless settings.type_primary_font.system? %}
+        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+
+        {% comment %} Preload the base font variant for initial page render {% endcomment %}
+        {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+      {% endunless %}
+    {% endif %}
+
+    {% # Load Great Vibes font for logo (non-blocking with display=swap) %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" media="print" onload="this.media='all'"  noscript-fallback>
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"></noscript>
+
+    {% # Inlined Critical CSS for faster initial render %}
+    <style>
+      /** Critical CSS for the theme. This file is included on every page. */
+
+      /* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        min-height: 100svh;
+      }
+
+      html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
+        overflow: hidden;
+      }
+
+      img,
+      picture,
+      video,
+      canvas,
+      svg {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+
+      input,
+      textarea,
+      select {
+        font: inherit;
+        border-radius: var(--style-border-radius-inputs);
+      }
+
+      select {
+        background-color: var(--color-background);
+        color: currentcolor;
+      }
+
+      dialog {
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+      }
+
+      p {
+        text-wrap: pretty;
+      }
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        overflow-wrap: break-word;
+      }
+
+      p:empty {
+        display: none;
+      }
+
+      :is(p, h1, h2, h3, h4, h5, h6):first-child,
+      :empty:first-child + :where(p, h1, h2, h3, h4, h5, h6) {
+        margin-block-start: 0;
+      }
+
+      :is(p, h1, h2, h3, h4, h5, h6):last-child,
+      :where(p, h1, h2, h3, h4, h5, h6) + :has(+ :empty:last-child) {
+        margin-block-end: 0;
+      }
+
+      /** Theme styles below */
+      body {
+        font-family: var(--font-primary--family);
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+      }
+
+      /** Section layout utilities */
+
+      /**
+       * Setup a grid that enables both full-width and constrained layouts
+       * depending on the class of the child elements.
+       *
+       * By default, a minimum content margin is set on the left and right
+       * sides of the section and the content is centered in the viewport to
+       * not exceed the maximum page width.
+       *
+       * When a child element is given the `full-width` class, it will span
+       * the entire viewport.
+       */
+      .shopify-section {
+        --content-width: min(
+          calc(var(--page-width) - var(--page-margin) * 2),
+          calc(100% - var(--page-margin) * 2)
+        );
+        --content-margin: minmax(var(--page-margin), 1fr);
+        --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
+
+        /* This is required to make <img> elements work as background images */
+        position: relative;
+        grid-template-columns: var(--content-grid);
+        display: grid;
+        width: 100%;
+      }
+
+      /* Child elements, by default, are constrained to the central column of the grid. */
+      .shopify-section > * {
+        grid-column: 2;
+      }
+
+      /* Child elements that use the full-width utility class span the entire viewport. */
+      .shopify-section > .full-width {
+        grid-column: 1 / -1;
+      }
+
+    </style>
+
+    {% # Preload and load Tailwind CSS for faster rendering %}
+    {{ 'tailwind.css' | asset_url | preload_tag: as: 'style' }}
+    {{ 'tailwind.css' | asset_url | stylesheet_tag }}
+
+    {% # Social, title, etc. %}
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    {% # Load lazy loading script with defer for better performance %}
+    <script src="{{ 'lazy-load.js' | asset_url }}" defer></script>
+  </head>
+
+  <body>
+    {% sections 'header-group' %}
+
+    {{ content_for_layout }}
+
+    {% sections 'footer-group' %}
+
+    {% section 'cart-drawer' %}
+  </body>
+</html>

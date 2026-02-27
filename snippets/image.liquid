@@ -1,0 +1,126 @@
+{% doc %}
+  Renders a responsive image that might be wrapped in a link.
+
+  When `width`, `height` and `crop` are provided, the image will be rendered
+  with a fixed aspect ratio.
+
+  Serves as an example of how to use the `image_url` filter and `image_tag` filter
+  as well as how you can use LiquidDoc to document your code.
+
+  @param {image} image - The image to be rendered
+  @param {string} [url] - An optional destination URL for the image
+  @param {string} [class] - Optional class to be added to the image wrapper
+  @param {number} [width] - The highest resolution width of the image to be rendered
+  @param {number} [height] - The highest resolution height of the image to be rendered
+  @param {string} [crop] - The crop position of the image
+  @param {boolean} [lazy] - DEPRECATED: Use loading parameter instead. Enable lazy loading with fade-in transition (default: false)
+  @param {string} [loading] - Image loading behavior: 'lazy', 'eager' (default: 'lazy')
+  @param {string} [fetchpriority] - Image fetch priority: 'high', 'low', 'auto' (default: 'auto')
+  @param {boolean} [srcset] - Enable responsive srcset (default: false)
+  @param {string} [sizes] - Optional sizes attribute for responsive images
+
+  @example
+  {% render 'image', image: product.featured_image %}
+  {% render 'image', image: product.featured_image, url: product.url %}
+  {% render 'image',
+    class: 'product__image',
+    image: product.featured_image,
+    url: product.url,
+    width: 1200,
+    height: 800,
+    crop: 'center',
+  %}
+  {% render 'image',
+    image: product.featured_image,
+    width: 1500,
+    lazy: true,
+    srcset: true,
+    sizes: '(min-width: 768px) 50vw, 100vw'
+  %}
+{% enddoc %}
+
+{% liquid
+  unless height
+    assign width = width | default: image.width
+  endunless
+
+  if url
+    assign wrapper = 'a'
+  else
+    assign wrapper = 'div'
+  endif
+
+  if srcset
+    assign srcset_widths = '500,750,1500,2750'
+    assign srcset_array = srcset_widths | split: ','
+  endif
+
+  # Handle loading parameter (backward compatible with lazy boolean)
+  if loading
+    assign image_loading = loading
+  elsif lazy
+    assign image_loading = 'lazy'
+  else
+    assign image_loading = 'lazy'
+  endif
+
+  # Handle fetchpriority parameter
+  unless fetchpriority
+    assign fetchpriority = 'auto'
+  endunless
+
+  # Determine if we should show fade-in effect (only for lazy loaded images)
+  if image_loading == 'lazy'
+    assign show_fade = true
+  else
+    assign show_fade = false
+  endif
+%}
+
+<{{ wrapper }}
+  class="image {{ class }}{% if show_fade %} image--lazy{% endif %}"
+  {% if url %}
+    href="{{ url }}"
+  {% endif %}
+>
+  {% if srcset %}
+    <img
+      src="{{ image | image_url: width: width, height: height, crop: crop }}"
+      srcset="{% for srcset_width in srcset_array %}{{ image | image_url: width: srcset_width, height: height, crop: crop }} {{ srcset_width }}w{% unless forloop.last %},{% endunless %}{% endfor %}"
+      {% if sizes %}sizes="{{ sizes }}"{% endif %}
+      loading="{{ image_loading }}"
+      fetchpriority="{{ fetchpriority }}"
+      {% if show_fade %}class="opacity-0"{% endif %}
+      alt="{{ image.alt | escape }}"
+    >
+  {% else %}
+    {{ image | image_url: width: width, height: height, crop: crop | image_tag: loading: image_loading, fetchpriority: fetchpriority }}
+  {% endif %}
+</{{ wrapper }}>
+
+{% stylesheet %}
+  .image {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+  }
+
+  .image > img {
+    width: 100%;
+    height: auto;
+  }
+
+  .image--lazy img {
+    transition: opacity 0.6s ease-in;
+  }
+
+  .image--lazy img.opacity-0 {
+    opacity: 0;
+  }
+
+  .image--lazy img.loaded {
+    opacity: 1;
+  }
+{% endstylesheet %}
